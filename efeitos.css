@@ -1,0 +1,262 @@
+/* ==========================================================
+   efeitos.css - Check-Point 02: Vinharia Agnello em Movimento
+   Importado pelo style.css (@import no topo do arquivo).
+   Cor principal do site: bordô #722F37
+   ========================================================== */
+
+:root {
+  --bordo: #722F37;
+  --bordo-claro: #a3414d;
+  --bordo-sombra: rgba(114, 47, 55, 0.45);
+}
+
+body {
+  overflow-x: hidden; /* evita barra horizontal quando uma imagem cresce no hover */
+}
+
+/* ----------------------------------------------------------
+   PSEUDO-ELEMENTO 1: ::selection
+   Cor do texto selecionado com o bordô da marca
+   ---------------------------------------------------------- */
+::selection {
+  background: var(--bordo);
+  color: #fff;
+}
+
+/* ----------------------------------------------------------
+   MENU: transições + transformação + :hover, :not(), ::after
+   ---------------------------------------------------------- */
+nav a {
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* PSEUDO-ELEMENTO 2: ::after = sublinhado que "cresce" sob o link */
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background: var(--bordo);
+  transform: scaleX(0);              /* TRANSFORMAÇÃO: scaleX */
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+/* PSEUDO-CLASSES: :hover e :not() (a página atual não "pula") */
+nav a:not(.ativo):hover {
+  color: var(--bordo-claro);
+  transform: translateY(-3px);       /* TRANSFORMAÇÃO: translateY */
+}
+
+nav a:hover::after,
+nav a.ativo::after {
+  transform: scaleX(1);
+}
+
+/* ----------------------------------------------------------
+   TÍTULO PRINCIPAL: ::before / ::after com uvas pulsando
+   ANIMAÇÃO com @keyframes
+   ---------------------------------------------------------- */
+.titleMain::before,
+.titleMain::after {
+  content: "🍇";
+  display: inline-block;
+  margin: 0 0.4em;
+  animation: pulsar 2.5s ease-in-out infinite;
+}
+
+.titleMain::after {
+  animation-delay: 1.25s;
+}
+
+@keyframes pulsar {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50%      { transform: scale(1.25) rotate(10deg); }
+}
+
+/* ----------------------------------------------------------
+   CONTEÚDO: entrada suave ao abrir a página (@keyframes)
+   ---------------------------------------------------------- */
+main {
+  animation: entrada 0.9s ease-out both;
+}
+
+@keyframes entrada {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ----------------------------------------------------------
+   TEXTOS
+   ---------------------------------------------------------- */
+
+/* PSEUDO-ELEMENTO 3: ::first-letter = letra capitular no 1º parágrafo */
+section > .pMain:first-of-type::first-letter {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.9em;
+  font-weight: bold;
+  color: var(--bordo);
+}
+
+/* PSEUDO-ELEMENTO 4: ::after = filete decorativo abaixo dos títulos */
+.hMain::after,
+.hMainFale::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  margin: 12px auto 0;
+  background: var(--bordo);
+  transition: width 0.4s ease;
+}
+
+section:hover > .hMain::after,
+section:hover > .hMainFale::after {
+  width: 140px;
+}
+
+/* PSEUDO-CLASSE: :nth-child() na lista "Por que escolher" */
+ul .pMain {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+ul .pMain:nth-child(odd) {
+  color: var(--bordo);
+}
+
+ul .pMain:hover {
+  transform: translateX(10px);       /* TRANSFORMAÇÃO: translateX */
+}
+
+/* ----------------------------------------------------------
+   IMAGENS: transição + scale() + rotate()
+   ---------------------------------------------------------- */
+.img-index {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.img-index:hover {
+  transform: scale(1.03) rotate(-1deg);
+  box-shadow: 0 14px 30px var(--bordo-sombra);
+}
+
+/* ----------------------------------------------------------
+   LINKS da página de contato
+   ---------------------------------------------------------- */
+a.pMain {
+  display: inline-block;
+  color: var(--bordo);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+a.pMain:hover {
+  color: var(--bordo-claro);
+  transform: scale(1.12);
+}
+
+/* ----------------------------------------------------------
+   TABELA da página Equipe: :nth-child() e :hover
+   ---------------------------------------------------------- */
+.table th {
+  background: var(--bordo);
+  color: #fff;
+  padding: 12px;
+}
+
+.table td {
+  padding: 12px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.table td:nth-child(odd) {
+  background: rgba(114, 47, 55, 0.07);
+}
+
+.table tr:hover td {
+  background: rgba(114, 47, 55, 0.18);
+}
+
+/* ----------------------------------------------------------
+   FORMULÁRIO: :focus, :focus-visible e transições
+   ---------------------------------------------------------- */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 500px;
+  margin: 0 auto 40px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+form label {
+  color: var(--bordo);
+  font-weight: bold;
+}
+
+form input,
+form textarea {
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+form input:focus,
+form textarea:focus {
+  outline: none;
+  border-color: var(--bordo);
+  box-shadow: 0 0 10px var(--bordo-sombra);
+  transform: scale(1.02);
+}
+
+form button {
+  align-self: flex-start;
+  padding: 12px 24px;
+  background: var(--bordo);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+form button:hover {
+  background: var(--bordo-claro);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 16px var(--bordo-sombra);
+}
+
+form button:active {
+  transform: scale(0.97);
+}
+
+/* foco visível para quem navega pelo teclado */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--bordo);
+  outline-offset: 4px;
+}
+
+/* ----------------------------------------------------------
+   Acessibilidade: respeita quem desativa animações no sistema
+   ---------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
